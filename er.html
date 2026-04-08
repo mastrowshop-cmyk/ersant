@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления | ersant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #000000;         
+            --bg-card: #0a0a0a;         
+            --border: #1a1a1a;          
+            --text-primary: #ffffff;    
+            --text-secondary: #666666;  
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            width: 900px;
+            height: 550px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.02);
+        }
+
+        /* Левая панель (Черно-белое фото) */
+        .left-panel {
+            flex: 1.1;
+            background-image: url('https://lk.ko-rista.com/images/pages/char_auth.webp');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) brightness(0.8);
+            border-right: 1px solid var(--border);
+        }
+
+        /* Правая панель (Форма) */
+        .right-panel {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            border-left: 2px solid white;
+            padding-left: 10px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            background: #050505;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: #ffffff;
+            background: #0a0a0a;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .footer-link span {
+            color: var(--text-primary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Главный экран после авторизации */
+        .main-menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .main-menu h1 {
+            font-size: 48px;
+            letter-spacing: -1px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .main-menu p {
+            color: var(--text-secondary);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .hidden { display: none !important; }
+        .show-flex { display: flex !important; }
+
+    </style>
+</head>
+<body>
+
+    <div id="auth-container" class="container">
+        <div class="left-panel"></div>
+        
+        <div id="login-form" class="right-panel">
+            <div class="logo">ERSANT</div>
+            <h1>Авторизация</h1>
+            <p class="subtitle">Введите данные для доступа в систему</p>
+            
+            <div class="input-group">
+                <label>Логин или Email</label>
+                <input type="text" id="user-login" value="ersant">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            
+            <button class="btn" onclick="handleAuth()">Войти</button>
+            
+            <div class="footer-link">
+                Нет аккаунта? <span onclick="toggleAuth()">Регистрация</span>
+            </div>
+        </div>
+
+        <div id="register-form" class="right-panel hidden">
+            <div class="logo">ERSANT</div>
+            <h1>Создать профиль</h1>
+            <p class="subtitle">Заполните поля для регистрации</p>
+            
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="mail@example.com">
+            </div>
+            <div class="input-group">
+                <label>Придумайте логин</label>
+                <input type="text" value="ersant">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            
+            <button class="btn" onclick="handleAuth()">Создать</button>
+            
+            <div class="footer-link">
+                Уже есть аккаунт? <span onclick="toggleAuth()">Войти</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-menu" class="main-menu">
+        <h1>developed by ersant</h1>
+        <p onclick="location.reload()" style="cursor:pointer">выход из системы</p>
+    </div>
+
+    <script>
+        // Переключение между входом и регистрацией
+        function toggleAuth() {
+            document.getElementById('login-form').classList.toggle('hidden');
+            document.getElementById('register-form').classList.toggle('hidden');
+        }
+
+        // Переход в главное меню
+        function handleAuth() {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('main-menu').classList.add('show-flex');
+        }
+    </script>
+</body>
+</html>
